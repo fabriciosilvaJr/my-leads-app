@@ -20,6 +20,12 @@ Aplicativo para gerenciar leads, construído com **Next.js** e **MongoDB**. Perm
 
 ---
 
+## 🌐 Link de Deploy
+
+🔗 **[https://my-leads-app-8duv.vercel.app/login](https://my-leads-app-8duv.vercel.app/login)**
+
+---
+
 ## 🚀 Instalação
 
 ### 1. Clone o repositório:
@@ -73,9 +79,4 @@ O aplicativo estará disponível em [http://localhost:3000](http://localhost:300
 - 🗑️ Exclusão de leads
 - 📊 Exportação de leads em CSV
 - 👤 Usuário admin pré-configurado
-
----
-
-
-
 
