@@ -41,12 +41,14 @@ MONGODB_URI=mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER>.mongodb.net/<DATABASE>
 
 4. Antes de rodar o projeto, execute o script de inicialização para criar o usuário admin:
 node scripts/seedUser.js
+admin@teste.com
+123456
 
-5. Depois disso, rode o projeto normalmente:
+6. Depois disso, rode o projeto normalmente:
 npm run dev
 O aplicativo estará disponível em http://localhost:3000
 
-Funcionalidades
+#Funcionalidades
 
 Listagem de leads
 
