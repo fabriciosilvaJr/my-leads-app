@@ -64,7 +64,6 @@ export default function NewLeadPage() {
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
 
-    // tracking params (se houver)
     const urlParams = new URLSearchParams(window.location.search);
     const trackingData = {
       utm_source: urlParams.get("utm_source") || "",
@@ -86,8 +85,6 @@ export default function NewLeadPage() {
       });
 
       if (res.ok) {
-        // sucesso -> redireciona para a lista que vai buscar do backend
-        alert("Lead cadastrado com sucesso!");
         router.push("/leads");
       } else {
         const error = await res.json().catch(() => ({}));

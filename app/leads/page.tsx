@@ -64,7 +64,6 @@ export default function LeadsListPage() {
         }
     };
 
-    // Função para exportar CSV
     const exportCSV = () => {
         if (filteredLeads.length === 0) return;
 
