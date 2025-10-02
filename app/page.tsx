@@ -21,17 +21,17 @@ export default function LeadManagementSystem() {
   });
   const [errors, setErrors] = useState<any>({});
 
-  const validateEmail = (email:any) => {
+  const validateEmail = (email: any) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   };
 
-  const validatePhone = (phone:any) => {
+  const validatePhone = (phone: any) => {
     const cleaned = phone.replace(/\D/g, '');
     return cleaned.length === 10 || cleaned.length === 11;
   };
 
-  const formatPhone = (value:any) => {
+  const formatPhone = (value: any) => {
     const cleaned = value.replace(/\D/g, '');
     if (cleaned.length <= 10) {
       return cleaned.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
@@ -39,60 +39,76 @@ export default function LeadManagementSystem() {
     return cleaned.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
   };
 
-  const handlePhoneChange = (e:any) => {
+  const handlePhoneChange = (e: any) => {
     const formatted = formatPhone(e.target.value);
     setFormData({ ...formData, telefone: formatted });
   };
 
-  const handleSubmit = (e:any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const newErrors:any = {};
-
-    if (!formData.nome) newErrors.nome = 'Nome é obrigatório';
+    const newErrors: any = {};
+    if (!formData.nome) newErrors.nome = "Nome é obrigatório";
     if (!formData.email) {
-      newErrors.email = 'E-mail é obrigatório';
+      newErrors.email = "E-mail é obrigatório";
     } else if (!validateEmail(formData.email)) {
-      newErrors.email = 'E-mail inválido';
+      newErrors.email = "E-mail inválido";
     }
     if (!formData.telefone) {
-      newErrors.telefone = 'Telefone é obrigatório';
+      newErrors.telefone = "Telefone é obrigatório";
     } else if (!validatePhone(formData.telefone)) {
-      newErrors.telefone = 'Telefone inválido';
+      newErrors.telefone = "Telefone inválido";
     }
-    if (!formData.cargo) newErrors.cargo = 'Cargo é obrigatório';
-    if (!formData.dataNascimento) newErrors.dataNascimento = 'Data de nascimento é obrigatória';
-    if (!formData.mensagem) newErrors.mensagem = 'Mensagem é obrigatória';
+    if (!formData.cargo) newErrors.cargo = "Cargo é obrigatório";
+    if (!formData.dataNascimento)
+      newErrors.dataNascimento = "Data de nascimento é obrigatória";
+    if (!formData.mensagem) newErrors.mensagem = "Mensagem é obrigatória";
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
       const urlParams = new URLSearchParams(window.location.search);
       const trackingData = {
-        utm_source: urlParams.get('utm_source') || '',
-        utm_medium: urlParams.get('utm_medium') || '',
-        utm_campaign: urlParams.get('utm_campaign') || '',
-        utm_term: urlParams.get('utm_term') || '',
-        utm_content: urlParams.get('utm_content') || '',
-        gclid: urlParams.get('gclid') || '',
-        fbclid: urlParams.get('fbclid') || ''
+        utm_source: urlParams.get("utm_source") || "",
+        utm_medium: urlParams.get("utm_medium") || "",
+        utm_campaign: urlParams.get("utm_campaign") || "",
+        utm_term: urlParams.get("utm_term") || "",
+        utm_content: urlParams.get("utm_content") || "",
+        gclid: urlParams.get("gclid") || "",
+        fbclid: urlParams.get("fbclid") || "",
       };
 
       const leadData = { ...formData, ...trackingData };
-      console.log('Lead enviado:', leadData);
-      alert('Lead cadastrado com sucesso!');
-      
-      setFormData({
-        nome: '',
-        email: '',
-        telefone: '',
-        cargo: '',
-        dataNascimento: '',
-        mensagem: ''
-      });
+
+      try {
+        const res = await fetch("/api/leads", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(leadData),
+        });
+
+        if (res.ok) {
+          alert("Lead cadastrado com sucesso!");
+          setFormData({
+            nome: "",
+            email: "",
+            telefone: "",
+            cargo: "",
+            dataNascimento: "",
+            mensagem: "",
+          });
+        } else {
+          const error = await res.json();
+          alert("Erro ao cadastrar lead: " + (error.message || "tente novamente"));
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Erro de conexão com a API.");
+      }
     }
   };
 
-  const handleChange = (e:any) => {
+
+  const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     if (errors[e.target.name]) {
       setErrors({ ...errors, [e.target.name]: '' });
@@ -353,7 +369,7 @@ const styles: { [key: string]: CSSProperties } = {
     color: '#6b7280',
     marginBottom: '2rem',
   },
-   
+
   form: {
     display: 'flex',
     flexDirection: 'column',
