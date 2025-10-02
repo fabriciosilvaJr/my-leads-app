@@ -22,7 +22,7 @@ Aplicativo para gerenciar leads, construído com **Next.js** e **MongoDB**. Perm
 
 ## 🌐 Link de Deploy
 
-🔗 **[https://my-leads-app-8duv.vercel.app/login](https://my-leads-app-8duv.vercel.app/login)**
+🔗 **[https://my-leads-app-8duv.vercel.app/login](https://my-leads-app-8duv.vercel.app)**
 
 ---
 
