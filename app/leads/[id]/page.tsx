@@ -71,7 +71,7 @@ export default function LeadDetails() {
       }
       
       alert('Lead deletado com sucesso!');
-      router.push('/');
+      router.push('/leads');
     } catch (err) {
       alert('Erro ao deletar lead: ' + (err instanceof Error ? err.message : 'Erro desconhecido'));
     } finally {
@@ -140,7 +140,7 @@ export default function LeadDetails() {
         {/* Header */}
         <div style={styles.header}>
           <div>
-            <Link href="/">
+            <Link href="/leads">
               <button style={styles.btnBack}>← Voltar</button>
             </Link>
             <h1 style={styles.title}>Detalhes do Lead</h1>
