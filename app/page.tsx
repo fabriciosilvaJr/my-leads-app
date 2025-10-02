@@ -9,6 +9,7 @@ interface Lead {
   dataNascimento: string;
   mensagem: string;
   createdAt: string;
+
 }
 
 interface FormData {
@@ -97,7 +98,20 @@ export default function LeadManagementSystem() {
         });
 
         if (res.ok) {
+          const result = await res.json();
           alert("Lead cadastrado com sucesso!");
+          const newLead: Lead = {
+            _id: result.insertedId,
+            nome: formData.nome,
+            email: formData.email,
+            telefone: formData.telefone,
+            cargo: formData.cargo,
+            dataNascimento: formData.dataNascimento,
+            mensagem: formData.mensagem,
+            createdAt: new Date().toISOString(),
+          };
+
+          setLeads((prevLeads) => [newLead, ...prevLeads]);
           setFormData({
             nome: "",
             email: "",
@@ -477,19 +491,19 @@ const styles: { [key: string]: CSSProperties } = {
     fontSize: '0.875rem',
     color: '#9ca3af',
   },
-   
+
   table: {
     width: "100%",
     borderCollapse: "collapse",
     marginTop: "15px",
-    color: "#000", 
+    color: "#000",
   },
   th: {
     border: "1px solid #ddd",
     padding: "8px",
     textAlign: "left",
     background: "#f4f4f4",
-    color: "#000", 
+    color: "#000",
   },
   td: { border: "1px solid #ddd", padding: "8px", color: "#000" },
 };
