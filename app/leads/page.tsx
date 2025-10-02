@@ -64,6 +64,33 @@ export default function LeadsListPage() {
         }
     };
 
+    // Função para exportar CSV
+    const exportCSV = () => {
+        if (filteredLeads.length === 0) return;
+
+        const headers = ["Nome", "Email", "Telefone", "Cargo", "DataNascimento", "CriadoEm"];
+        const rows = filteredLeads.map((lead) => [
+            lead.nome,
+            lead.email,
+            lead.telefone,
+            lead.cargo,
+            lead.dataNascimento,
+            new Date(lead.createdAt).toLocaleString("pt-BR"),
+        ]);
+
+        const csvContent =
+            "data:text/csv;charset=utf-8," +
+            [headers, ...rows].map((e) => e.join(",")).join("\n");
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `leads_${new Date().toISOString()}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <div style={styles.card}>
             <h2 style={styles.title}>Painel Administrativo</h2>
@@ -75,6 +102,10 @@ export default function LeadsListPage() {
                 onChange={(e) => setSearch(e.target.value)}
                 style={styles.searchInput}
             />
+
+            <button onClick={exportCSV} style={styles.exportButton}>
+                Exportar CSV
+            </button>
 
             {loading ? (
                 <p>Carregando...</p>
@@ -132,41 +163,50 @@ export default function LeadsListPage() {
 }
 
 const styles: { [key: string]: CSSProperties } = {
-  card: {
-    backgroundColor: "#ffffff",
-    borderRadius: "1rem",
-    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
-    padding: "2rem",
-  },
-  title: {
-    fontSize: "2rem",
-    fontWeight: "bold",
-    color: "#111827",
-    marginBottom: "0.5rem",
-  },
-  searchInput: {
-    width: "100%",
-    padding: "8px",
-    marginBottom: "15px",
-    borderRadius: "0.5rem",
-    border: "1px solid #ccc",
-  },
-  table: {
-    width: "100%",
-    borderCollapse: "collapse",
-    marginTop: "15px",
-    color: "#000",
-  },
-  th: {
-    border: "1px solid #ddd",
-    padding: "8px",
-    textAlign: "left",
-    background: "#f4f4f4",
-    color: "#000",
-  },
-  td: {
-    border: "1px solid #ddd",
-    padding: "8px",
-    color: "#000",
-  },
+    card: {
+        backgroundColor: "#ffffff",
+        borderRadius: "1rem",
+        boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
+        padding: "2rem",
+    },
+    title: {
+        fontSize: "2rem",
+        fontWeight: "bold",
+        color: "#111827",
+        marginBottom: "0.5rem",
+    },
+    searchInput: {
+        width: "100%",
+        padding: "8px",
+        marginBottom: "15px",
+        borderRadius: "0.5rem",
+        border: "1px solid #ccc",
+    },
+    exportButton: {
+        padding: "8px 12px",
+        marginBottom: "15px",
+        borderRadius: "0.5rem",
+        border: "none",
+        backgroundColor: "#1d4ed8",
+        color: "#fff",
+        cursor: "pointer",
+    },
+    table: {
+        width: "100%",
+        borderCollapse: "collapse",
+        marginTop: "15px",
+        color: "#000",
+    },
+    th: {
+        border: "1px solid #ddd",
+        padding: "8px",
+        textAlign: "left",
+        background: "#f4f4f4",
+        color: "#000",
+    },
+    td: {
+        border: "1px solid #ddd",
+        padding: "8px",
+        color: "#000",
+    },
 };
