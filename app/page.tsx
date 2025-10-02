@@ -1,5 +1,15 @@
 "use client";
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
+interface Lead {
+  _id: string;
+  nome: string;
+  email: string;
+  telefone: string;
+  cargo: string;
+  dataNascimento: string;
+  mensagem: string;
+  createdAt: string;
+}
 
 interface FormData {
   nome: string;
@@ -114,6 +124,16 @@ export default function LeadManagementSystem() {
       setErrors({ ...errors, [e.target.name]: '' });
     }
   };
+
+  const [leads, setLeads] = useState<Lead[]>([]);
+
+  useEffect(() => {
+    fetch("/api/leads")
+      .then((res) => res.json())
+      .then(setLeads)
+      .catch((err) => console.error("Erro ao buscar leads:", err));
+  }, []);
+
 
   return (
     <div style={styles.container}>
@@ -288,12 +308,37 @@ export default function LeadManagementSystem() {
         ) : (
           <div style={styles.card}>
             <h2 style={styles.title}>Painel Administrativo</h2>
-            <div style={styles.adminPlaceholder}>
-              <p style={styles.adminText}>Painel em desenvolvimento</p>
-              <p style={styles.adminSubtext}>
-                Aqui você poderá gerenciar, visualizar e exportar seus leads
-              </p>
-            </div>
+
+            {leads.length === 0 ? (
+              <p>Nenhum lead cadastrado ainda.</p>
+            ) : (
+              <table style={styles.table}>
+                <thead>
+                  <tr>
+                    <th style={styles.th}>Nome</th>
+                    <th style={styles.th}>Email</th>
+                    <th style={styles.th}>Telefone</th>
+                    <th style={styles.th}>Cargo</th>
+                    <th style={styles.th}>Data Nasc.</th>
+                    <th style={styles.th}>Criado em</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leads.map((lead) => (
+                    <tr key={lead._id}>
+                      <td style={styles.td}>{lead.nome}</td>
+                      <td style={styles.td}>{lead.email}</td>
+                      <td style={styles.td}>{lead.telefone}</td>
+                      <td style={styles.td}>{lead.cargo}</td>
+                      <td style={styles.td}>{lead.dataNascimento}</td>
+                      <td style={styles.td}>
+                        {new Date(lead.createdAt).toLocaleString("pt-BR")}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         )}
       </main>
@@ -432,4 +477,19 @@ const styles: { [key: string]: CSSProperties } = {
     fontSize: '0.875rem',
     color: '#9ca3af',
   },
+   
+  table: {
+    width: "100%",
+    borderCollapse: "collapse",
+    marginTop: "15px",
+    color: "#000", 
+  },
+  th: {
+    border: "1px solid #ddd",
+    padding: "8px",
+    textAlign: "left",
+    background: "#f4f4f4",
+    color: "#000", 
+  },
+  td: { border: "1px solid #ddd", padding: "8px", color: "#000" },
 };
