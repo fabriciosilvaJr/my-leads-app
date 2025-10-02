@@ -14,11 +14,24 @@ interface Lead {
 
 export default function LeadsListPage() {
     const [leads, setLeads] = useState<Lead[]>([]);
+    const [filteredLeads, setFilteredLeads] = useState<Lead[]>([]);
     const [loading, setLoading] = useState(true);
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
         fetchLeads();
     }, []);
+
+    useEffect(() => {
+        const lowerSearch = search.toLowerCase();
+        setFilteredLeads(
+            leads.filter(
+                (lead) =>
+                    lead.nome.toLowerCase().includes(lowerSearch) ||
+                    lead.email.toLowerCase().includes(lowerSearch)
+            )
+        );
+    }, [search, leads]);
 
     const fetchLeads = () => {
         setLoading(true);
@@ -26,10 +39,12 @@ export default function LeadsListPage() {
             .then((res) => res.json())
             .then((data) => {
                 setLeads(data || []);
+                setFilteredLeads(data || []);
             })
             .catch((err) => {
                 console.error("Erro ao buscar leads:", err);
                 setLeads([]);
+                setFilteredLeads([]);
             })
             .finally(() => setLoading(false));
     };
@@ -53,10 +68,18 @@ export default function LeadsListPage() {
         <div style={styles.card}>
             <h2 style={styles.title}>Painel Administrativo</h2>
 
+            <input
+                type="text"
+                placeholder="Buscar por nome ou email..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                style={styles.searchInput}
+            />
+
             {loading ? (
                 <p>Carregando...</p>
-            ) : leads.length === 0 ? (
-                <p>Nenhum lead cadastrado ainda.</p>
+            ) : filteredLeads.length === 0 ? (
+                <p>Nenhum lead encontrado.</p>
             ) : (
                 <div style={{ overflowX: "auto" }}>
                     <table style={styles.table}>
@@ -72,7 +95,7 @@ export default function LeadsListPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {leads.map((lead) => (
+                            {filteredLeads.map((lead) => (
                                 <tr key={lead._id}>
                                     <td style={styles.td} data-label="Nome">{lead.nome}</td>
                                     <td style={styles.td} data-label="Email">{lead.email}</td>
@@ -120,6 +143,13 @@ const styles: { [key: string]: CSSProperties } = {
     fontWeight: "bold",
     color: "#111827",
     marginBottom: "0.5rem",
+  },
+  searchInput: {
+    width: "100%",
+    padding: "8px",
+    marginBottom: "15px",
+    borderRadius: "0.5rem",
+    border: "1px solid #ccc",
   },
   table: {
     width: "100%",
