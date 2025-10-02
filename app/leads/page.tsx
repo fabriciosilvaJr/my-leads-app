@@ -17,6 +17,10 @@ export default function LeadsListPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    fetchLeads();
+  }, []);
+
+  const fetchLeads = () => {
     setLoading(true);
     fetch("/api/leads")
       .then((res) => res.json())
@@ -28,7 +32,22 @@ export default function LeadsListPage() {
         setLeads([]);
       })
       .finally(() => setLoading(false));
-  }, []);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Tem certeza que deseja deletar este lead?")) return;
+
+    try {
+      const res = await fetch(`/api/leads/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setLeads((prev) => prev.filter((lead) => lead._id !== id));
+      } else {
+        console.error("Erro ao deletar lead");
+      }
+    } catch (err) {
+      console.error("Erro ao deletar lead:", err);
+    }
+  };
 
   return (
     <div style={styles.card}>
@@ -49,6 +68,7 @@ export default function LeadsListPage() {
                 <th style={styles.th}>Cargo</th>
                 <th style={styles.th}>Data Nasc.</th>
                 <th style={styles.th}>Criado em</th>
+                <th style={styles.th}>Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -59,7 +79,28 @@ export default function LeadsListPage() {
                   <td style={styles.td}>{lead.telefone}</td>
                   <td style={styles.td}>{lead.cargo}</td>
                   <td style={styles.td}>{lead.dataNascimento}</td>
-                  <td style={styles.td}>{new Date(lead.createdAt).toLocaleString("pt-BR")}</td>
+                  <td style={styles.td}>
+                    {new Date(lead.createdAt).toLocaleString("pt-BR")}
+                  </td>
+                  <td style={styles.td}>
+                    {/* Botão de visualizar */}
+                    <a
+                      href={`/leads/${lead._id}`}
+                      style={{ marginRight: "10px", cursor: "pointer" }}
+                      title="Visualizar"
+                    >
+                      👁️
+                    </a>
+
+                    {/* Botão de deletar */}
+                    <span
+                      onClick={() => handleDelete(lead._id)}
+                      style={{ cursor: "pointer", color: "red" }}
+                      title="Deletar"
+                    >
+                      🗑️
+                    </span>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -71,52 +112,18 @@ export default function LeadsListPage() {
 }
 
 const styles: { [key: string]: CSSProperties } = {
-
-  
   card: {
-    backgroundColor: '#ffffff',
-    borderRadius: '1rem',
-    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
-    padding: '2rem',
+    backgroundColor: "#ffffff",
+    borderRadius: "1rem",
+    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
+    padding: "2rem",
   },
   title: {
-    fontSize: '2rem',
-    fontWeight: 'bold',
-    color: '#111827',
-    marginBottom: '0.5rem',
+    fontSize: "2rem",
+    fontWeight: "bold",
+    color: "#111827",
+    marginBottom: "0.5rem",
   },
-  subtitle: {
-    color: '#6b7280',
-    marginBottom: '2rem',
-  },
-
-  textarea: {
-    resize: 'vertical',
-    fontFamily: 'inherit',
-  },
-  inputError: {
-    borderColor: '#ef4444',
-  },
-  errorText: {
-    color: '#ef4444',
-    fontSize: '0.875rem',
-    marginTop: '0.25rem',
-  },
- 
-  adminPlaceholder: {
-    textAlign: 'center',
-    padding: '3rem 0',
-  },
-  adminText: {
-    fontSize: '1.125rem',
-    color: '#6b7280',
-    marginBottom: '1rem',
-  },
-  adminSubtext: {
-    fontSize: '0.875rem',
-    color: '#9ca3af',
-  },
-
   table: {
     width: "100%",
     borderCollapse: "collapse",
