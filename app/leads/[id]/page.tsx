@@ -85,7 +85,14 @@ export default function LeadDetails() {
   };
 
   const formatDateTime = (dateString: string): string => {
-    return new Date(dateString).toLocaleString('pt-BR');
+    let date;
+    if(dateString){
+        date = new Date(dateString).toLocaleString('pt-BR')
+    } else{
+        date = "";
+    }
+    
+    return date ;
   };
 
   if (loading) {
