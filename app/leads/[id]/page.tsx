@@ -133,14 +133,14 @@ export default function LeadDetails() {
         {/* Header */}
         <div style={styles.header}>
           <div>
-            <Link href="/admin">
+            <Link href="/">
               <button style={styles.btnBack}>← Voltar</button>
             </Link>
             <h1 style={styles.title}>Detalhes do Lead</h1>
             <p style={styles.subtitle}>ID: {lead.id}</p>
           </div>
           <div style={styles.headerActions}>
-            <Link href={`/admin/leads/edit/${lead.id}`}>
+            <Link href={`/leads/edit/${lead.id}`}>
               <button style={styles.btnSecondary}>✏️ Editar</button>
             </Link>
             <button 
