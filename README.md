@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My Leads App
 
-## Getting Started
+Aplicativo para gerenciar leads, construído com **Next.js** e **MongoDB**. Permite visualizar, buscar, deletar e exportar leads.
 
-First, run the development server:
+---
 
-```bash
+## 🛠 Tecnologias
+
+- [Next.js](https://nextjs.org/)
+- [React](https://reactjs.org/)
+- [MongoDB](https://www.mongodb.com/)
+- Node.js
+
+---
+
+## ⚙️ Pré-requisitos
+
+- Node.js >= 20
+- Conta no MongoDB Atlas ou MongoDB local
+---
+
+## 🚀 Instalação
+
+1. Clone o repositório:
+
+[git clone <REPO_URL>](https://github.com/fabriciosilvaJr/my-leads-app.git)
+cd my-leads-app
+
+
+2. Instale as dependências:
+
+npm install
+
+3. Configure as variáveis de ambiente:
+
+Renomeie o arquivo env.example para .env.local
+
+Preencha a URI do MongoDB Atlas:
+
+MONGODB_URI=mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER>.mongodb.net/<DATABASE>?retryWrites=true&w=majority
+
+4. Antes de rodar o projeto, execute o script de inicialização para criar o usuário admin:
+node scripts/seedUser.js
+
+5. Depois disso, rode o projeto normalmente:
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+O aplicativo estará disponível em http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Funcionalidades
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Listagem de leads
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Busca por nome ou email
 
-## Learn More
+Visualização de detalhes de cada lead
 
-To learn more about Next.js, take a look at the following resources:
+Exclusão de leads
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Exportação de leads em CSV
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Usuário admin pré-configurado
