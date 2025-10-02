@@ -17,45 +17,65 @@ Aplicativo para gerenciar leads, construído com **Next.js** e **MongoDB**. Perm
 
 - Node.js >= 20
 - Conta no MongoDB Atlas ou MongoDB local
+
 ---
 
 ## 🚀 Instalação
 
-1. Clone o repositório:
+### 1. Clone o repositório:
 
-[git clone <REPO_URL>](https://github.com/fabriciosilvaJr/my-leads-app.git)
+```bash
+git clone https://github.com/fabriciosilvaJr/my-leads-app.git
 cd my-leads-app
+```
 
+### 2. Instale as dependências:
 
-2. Instale as dependências:
-
+```bash
 npm install
+```
 
-3. Configure as variáveis de ambiente:
+### 3. Configure as variáveis de ambiente:
 
-Renomeie o arquivo env.example para .env.local
+Renomeie o arquivo `env.example` para `.env.local` e preencha a URI do MongoDB Atlas:
 
-Preencha a URI do MongoDB Atlas:
-
+```env
 MONGODB_URI=mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER>.mongodb.net/<DATABASE>?retryWrites=true&w=majority
+```
 
-4. Antes de rodar o projeto, execute o script de inicialização para criar o usuário admin:
+### 4. Execute o script de inicialização:
+
+Antes de rodar o projeto, execute o script para criar o usuário admin:
+
+```bash
 node scripts/seedUser.js
+```
 
-5. Depois disso, rode o projeto normalmente:
+**Credenciais padrão:**
+- Email: `admin@teste.com`
+- Senha: `123456`
+
+### 5. Inicie o servidor de desenvolvimento:
+
+```bash
 npm run dev
-O aplicativo estará disponível em http://localhost:3000
+```
 
-Funcionalidades
+O aplicativo estará disponível em [http://localhost:3000](http://localhost:3000)
 
-Listagem de leads
+---
 
-Busca por nome ou email
+## ✨ Funcionalidades
 
-Visualização de detalhes de cada lead
+- ✅ Listagem de leads
+- 🔍 Busca por nome ou email
+- 👁️ Visualização de detalhes de cada lead
+- 🗑️ Exclusão de leads
+- 📊 Exportação de leads em CSV
+- 👤 Usuário admin pré-configurado
 
-Exclusão de leads
+---
 
-Exportação de leads em CSV
 
-Usuário admin pré-configurado
+
+
