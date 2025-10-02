@@ -45,3 +45,40 @@ input, textarea, select {
     color-scheme: dark;
   }
 }
+
+@media (max-width: 768px) {
+  table {
+    border: 0;
+  }
+
+  table thead {
+    display: none; 
+  }
+
+  table tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+  }
+
+  table td {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    border: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  table td:last-child {
+    border-bottom: 0;
+  }
+
+  table td::before {
+    content: attr(data-label); 
+    font-weight: bold;
+    margin-right: 10px;
+    color: #555;
+  }
+}
